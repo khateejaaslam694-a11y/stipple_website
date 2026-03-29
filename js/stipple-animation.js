@@ -40,7 +40,7 @@ class StippleAnimation {
         ];
         
         this.dots = [];
-        const count = 1000;
+        const count = 250;
         
         for (let i = 0; i < count; i++) {
             this.dots.push({
@@ -110,9 +110,11 @@ class StippleAnimation {
             dot.x += dot.vx;
             dot.y += dot.vy;
             
-            // Bounce off edges
-            if (dot.x < 0 || dot.x > this.canvas.width) dot.vx *= -1;
-            if (dot.y < 0 || dot.y > this.canvas.height) dot.vy *= -1;
+           // Wraparound edges — dots come back from other side
+          if (dot.x < -10) dot.x = this.canvas.width + 10;
+          if (dot.x > this.canvas.width + 10) dot.x = -10;
+          if (dot.y < -10) dot.y = this.canvas.height + 10;
+          if (dot.y > this.canvas.height + 10) dot.y = -10;
             
             // Mouse repulsion
             if (this.mouse.x !== null && this.mouse.y !== null) {
@@ -120,19 +122,16 @@ class StippleAnimation {
                 const dy = dot.y - this.mouse.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 
-                if (dist < 100) {
-                    const force = (100 - dist) / 100;
-                    dot.vx += (dx / dist) * force * 0.2;
-                    dot.vy += (dy / dist) * force * 0.2;
-                }
+                if (dist < 150) {
+                const force = (150 - dist) / 150;
+                  dot.vx += (dx / dist) * force * 0.5;
+                   dot.vy += (dy / dist) * force * 0.5;
+ }
             }
             
-            // Limit velocity
-            const speed = Math.sqrt(dot.vx * dot.vx + dot.vy * dot.vy);
-            if (speed > 2) {
-                dot.vx = (dot.vx / speed) * 2;
-                dot.vy = (dot.vy / speed) * 2;
-            }
+           // Gentle slowdown — no hard cap so dots can escape freely
+dot.vx *= 0.99;
+dot.vy *= 0.99;
         }
         
         // Update meteors
