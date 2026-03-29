@@ -154,7 +154,7 @@ button {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 14px 20px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -165,12 +165,13 @@ button {
     display: flex;
     align-items: center;
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 .site-logo {
     height: 56px;
-    max-width: 148px;
     width: auto;
+    max-width: 220px;
     display: block;
     object-fit: contain;
 }
@@ -179,6 +180,7 @@ button {
     display: flex;
     align-items: center;
     gap: 28px;
+    margin-left: auto;
 }
 
 .nav-link {
