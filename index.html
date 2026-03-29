@@ -112,47 +112,18 @@
             justify-content: space-between;
         }
 
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+       .logo {
+    display: flex;
+    align-items: center;
+}
 
-        .logo-wheel {
-            position: relative;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid rgba(214,211,208,0.8);
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .logo-wheel-inner {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: conic-gradient(
-                from -90deg,
-                #ff002b 0deg,
-                #ff6a00 45deg,
-                #ffe600 90deg,
-                #7dff00 135deg,
-                #00ff2a 180deg,
-                #00e5ff 225deg,
-                #005bff 270deg,
-                #7a00ff 315deg,
-                #ff00bf 360deg
-            );
-        }
-
-        .logo-wheel-center {
-            position: absolute;
-            inset: 8px;
-            border-radius: 50%;
-            background: white;
-            border: 1px solid rgba(214,211,208,0.7);
-        }
+.site-logo {
+    height: 40px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
+}
 
         .logo-text {
             font-family: var(--font-serif);
