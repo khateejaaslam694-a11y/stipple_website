@@ -1,5 +1,5 @@
 // ============================================
-// STIPPLE - Canvas Animation
+// STIPPLE - Canvas Animation Engine
 // ============================================
 
 class StippleAnimation {
@@ -40,14 +40,14 @@ class StippleAnimation {
         ];
         
         this.dots = [];
-        const count = Math.min(150, Math.floor((this.canvas.width * this.canvas.height) / 8000));
+        const count = Math.min(200, Math.floor((this.canvas.width * this.canvas.height) / 5000));
         
         for (let i = 0; i < count; i++) {
             this.dots.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: (Math.random() - 0.5) * 0.8,
                 radius: Math.random() * 2 + 1,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 opacity: Math.random() * 0.5 + 0.3
@@ -57,7 +57,7 @@ class StippleAnimation {
     
     createStars() {
         this.stars = [];
-        const count = Math.min(80, Math.floor((this.canvas.width * this.canvas.height) / 15000));
+        const count = Math.min(100, Math.floor((this.canvas.width * this.canvas.height) / 12000));
         
         for (let i = 0; i < count; i++) {
             this.stars.push({
@@ -153,7 +153,7 @@ class StippleAnimation {
             }
         }
         
-        // Spawn meteors
+        // Spawn meteors every 3-8 seconds
         if (time - this.lastMeteorTime > 3000 + Math.random() * 5000) {
             this.createMeteor();
             this.lastMeteorTime = time;
