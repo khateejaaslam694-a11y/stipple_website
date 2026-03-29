@@ -169,6 +169,7 @@ button {
 
 .site-logo {
     height: 56px;
+    max-width: 180px;
     width: auto;
     display: block;
     object-fit: contain;
