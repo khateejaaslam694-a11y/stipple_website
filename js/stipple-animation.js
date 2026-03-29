@@ -48,7 +48,7 @@ class StippleAnimation {
                 y: Math.random() * this.canvas.height,
                 vx: (Math.random() - 0.5) * 0.8,
                 vy: (Math.random() - 0.5) * 0.8,
-                radius: Math.random() * 2 + 1,
+                radius: Math.random() * 4 + 2,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 opacity: Math.random() * 0.5 + 0.3
             });
@@ -171,27 +171,47 @@ class StippleAnimation {
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw connecting lines
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-        ctx.lineWidth = 1;
+        // Draw glowing connecting lines
+for (let i = 0; i < this.dots.length; i++) {
+    for (let j = i + 1; j < this.dots.length; j++) {
+        const dx = this.dots[i].x - this.dots[j].x;
+        const dy = this.dots[i].y - this.dots[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
         
-        for (let i = 0; i < this.dots.length; i++) {
-            for (let j = i + 1; j < this.dots.length; j++) {
-                const dx = this.dots[i].x - this.dots[j].x;
-                const dy = this.dots[i].y - this.dots[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                
-                if (dist < 100) {
-                    ctx.globalAlpha = (100 - dist) / 100 * 0.3;
-                    ctx.beginPath();
-                    ctx.moveTo(this.dots[i].x, this.dots[i].y);
-                    ctx.lineTo(this.dots[j].x, this.dots[j].y);
-                    ctx.stroke();
-                }
-            }
+        if (dist < 120) {
+            const alpha = (120 - dist) / 120;
+
+            // Glow layer 1 — wide soft glow
+            ctx.globalAlpha = alpha * 0.15;
+            ctx.strokeStyle = 'rgba(249, 199, 79, 1)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(this.dots[i].x, this.dots[i].y);
+            ctx.lineTo(this.dots[j].x, this.dots[j].y);
+            ctx.stroke();
+
+            // Glow layer 2 — medium glow
+            ctx.globalAlpha = alpha * 0.25;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(this.dots[i].x, this.dots[i].y);
+            ctx.lineTo(this.dots[j].x, this.dots[j].y);
+            ctx.stroke();
+
+            // Core line — sharp bright center
+            ctx.globalAlpha = alpha * 0.6;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(this.dots[i].x, this.dots[i].y);
+            ctx.lineTo(this.dots[j].x, this.dots[j].y);
+            ctx.stroke();
         }
-        
-        ctx.globalAlpha = 1;
+    }
+}
+
+ctx.globalAlpha = 1;
         
         // Draw stars with twinkling
         for (const star of this.stars) {
@@ -222,16 +242,30 @@ class StippleAnimation {
         
         ctx.globalAlpha = 1;
         
-        // Draw dots
-        for (const dot of this.dots) {
-            ctx.globalAlpha = dot.opacity;
-            ctx.fillStyle = dot.color;
-            ctx.beginPath();
-            ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        ctx.globalAlpha = 1;
+        // Draw dots with glow
+for (const dot of this.dots) {
+    // Outer glow
+    ctx.globalAlpha = dot.opacity * 0.3;
+    const glowGradient = ctx.createRadialGradient(
+        dot.x, dot.y, 0,
+        dot.x, dot.y, dot.radius * 4
+    );
+    glowGradient.addColorStop(0, dot.color);
+    glowGradient.addColorStop(1, 'transparent');
+    ctx.fillStyle = glowGradient;
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, dot.radius * 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Core dot
+    ctx.globalAlpha = dot.opacity;
+    ctx.fillStyle = dot.color;
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+ctx.globalAlpha = 1;
     }
     
     animate = (time = 0) => {
