@@ -40,7 +40,7 @@ class StippleAnimation {
         ];
         
         this.dots = [];
-        const count = Math.min(200, Math.floor((this.canvas.width * this.canvas.height) / 5000));
+        const count = 1000;
         
         for (let i = 0; i < count; i++) {
             this.dots.push({
@@ -48,7 +48,7 @@ class StippleAnimation {
                 y: Math.random() * this.canvas.height,
                 vx: (Math.random() - 0.5) * 0.8,
                 vy: (Math.random() - 0.5) * 0.8,
-                radius: Math.random() * 4 + 2,
+                radius: Math.random() * 1.5 + 0.5,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 opacity: Math.random() * 0.5 + 0.3
             });
