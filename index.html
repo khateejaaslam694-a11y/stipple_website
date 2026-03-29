@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stipple - Every Dot Tells a Color Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-wheel">
+                    <svg viewBox="0 0 36 36" width="32" height="32">
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#bc475f" stroke-dasharray="8.4 92" stroke-dashoffset="0"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#e85d04" stroke-dasharray="8.4 92" stroke-dashoffset="-8.4"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#f9c74f" stroke-dasharray="8.4 92" stroke-dashoffset="-16.8"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#90be6d" stroke-dasharray="8.4 92" stroke-dashoffset="-25.2"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#1b3907" stroke-dasharray="8.4 92" stroke-dashoffset="-33.6"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#43aa8b" stroke-dasharray="8.4 92" stroke-dashoffset="-42"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#015f7e" stroke-dasharray="8.4 92" stroke-dashoffset="-50.4"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#577590" stroke-dasharray="8.4 92" stroke-dashoffset="-58.8"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#6d597a" stroke-dasharray="8.4 92" stroke-dashoffset="-67.2"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#b56576" stroke-dasharray="8.4 92" stroke-dashoffset="-75.6"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#e56b6f" stroke-dasharray="8.4 92" stroke-dashoffset="-84"/>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="6" stroke="#eaac8b" stroke-dasharray="8.4 92" stroke-dashoffset="-92.4"/>
+                        <circle cx="18" cy="18" r="6" fill="#fff"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Stipple</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Analyze</a>
+                <a href="color-blindness.html" class="nav-link">Color Blindness</a>
+                <a href="gallery.html" class="nav-link">
+                    My Gallery
+                    <span class="gallery-count" id="galleryCount">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Stipple Animation -->
+    <section class="hero" id="hero">
+        <canvas id="stippleCanvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-tagline">Color Analysis Studio</p>
+            <h1 class="hero-title">
+                <span>Every Dot Tells a</span>
+                <span class="gradient-text">Color Story</span>
+            </h1>
+            <div class="hero-dots">
+                <span></span><span></span><span></span><span class="center"></span><span></span><span></span><span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Upload Your Artwork</h2>
+                    <p>Discover the hidden palette within any image</p>
+                </div>
+                
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <div class="upload-content" id="uploadContent">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <p class="upload-text">Drop your image here or <span>browse</span></p>
+                        <p class="upload-hint">Supports JPG, PNG, WebP up to 10MB</p>
+                    </div>
+                    
+                    <!-- Image Preview -->
+                    <div class="image-preview" id="imagePreview" hidden>
+                        <img id="previewImg" src="" alt="Preview">
+                        <button class="remove-btn" id="removeImage">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="extract-btn" id="extractBtn" disabled>
+                    <span>Extract Colors</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16l4-4-4-4"/>
+                        <path d="M8 12h8"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Color Picker Section (appears after extraction) -->
+        <section class="picker-section" id="pickerSection" hidden>
+            <div class="container">
+                <div class="section-header">
+                    <h2>Color Explorer</h2>
+                    <p>Hover anywhere on the image to discover colors</p>
+                </div>
+                
+                <div class="picker-container">
+                    <div class="picker-canvas-wrapper">
+                        <canvas id="pickerCanvas"></canvas>
+                        <div class="magnifier" id="magnifier">
+                            <canvas id="magnifierCanvas" width="100" height="100"></canvas>
+                            <div class="magnifier-crosshair"></div>
+                        </div>
+                        <div class="color-tooltip" id="colorTooltip">
+                            <div class="tooltip-swatch" id="tooltipSwatch"></div>
+                            <span class="tooltip-hex" id="tooltipHex">#FFFFFF</span>
+                        </div>
+                    </div>
+                    
+                    <div class="live-color-info" id="liveColorInfo">
+                        <div class="live-swatch" id="liveSwatch"></div>
+                        <div class="live-details">
+                            <h4 id="liveColorName">Hover to pick</h4>
+                            <div class="live-values">
+                                <div class="value-group">
+                                    <span class="label">HEX</span>
+                                    <span class="value" id="liveHex">—</span>
+                                </div>
+                                <div class="value-group">
+                                    <span class="label">RGB</span>
+                                    <span class="value" id="liveRgb">—</span>
+                                </div>
+                                <div class="value-group">
+                                    <span class="label">HSL</span>
+                                    <span class="value" id="liveHsl">—</span>
+                                </div>
+                            </div>
+                            <button class="add-color-btn" id="addPickedColor" disabled>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"/>
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                Add to Palette
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Extracted Colors Section -->
+        <section class="colors-section" id="colorsSection" hidden>
+            <div class="container">
+                <div class="section-header">
+                    <h2>Dominant Palette</h2>
+                    <p>The main colors found in your artwork</p>
+                </div>
+                
+                <div class="colors-grid" id="colorsGrid"></div>
+                
+                <div class="palette-actions">
+                    <button class="action-btn save-artwork-btn" id="saveArtworkBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Save Artwork to Gallery
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Palette Section -->
+        <section class="custom-palette-section" id="customPaletteSection" hidden>
+            <div class="container">
+                <div class="section-header">
+                    <h2>Your Custom Palette</h2>
+                    <p>Colors you've picked from the image</p>
+                </div>
+                
+                <div class="custom-palette" id="customPalette"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-message"></span>
+    </div>
+
+    <!-- Color Detail Modal -->
+    <div class="modal" id="colorModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Stipple. Every Dot Tells a Color Story.</p>
+        </div>
+    </footer>
+
+    <script src="js/color-utils.js"></script>
+    <script src="js/stipple-animation.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
