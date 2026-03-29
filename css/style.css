@@ -236,14 +236,6 @@ button {
 }
 
 /* =========================
-   HERO SPACING FIX
-========================= */
-.hero {
-    position: relative;
-    margin-top: 0;
-    padding-top: 76px;
-}
-/* =========================
    MOBILE NAVBAR
 ========================= */
 @media (max-width: 768px) {
