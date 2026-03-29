@@ -164,25 +164,13 @@ button {
 .logo {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
 }
 
-.logo-wheel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform var(--transition-slow);
-}
-
-.logo:hover .logo-wheel {
-    transform: rotate(30deg);
-}
-
-.logo-text {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--spruce);
+.site-logo {
+    height: 54px;
+    width: auto;
+    display: block;
+    object-fit: contain;
 }
 
 .nav-links {
