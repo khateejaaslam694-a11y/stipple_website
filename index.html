@@ -6,216 +6,2159 @@
     <title>Stipple - Every Dot Tells a Color Story</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           STIPPLE - Complete Styles
+           ============================================ */
+        :root {
+            --spruce: #1b3907;
+            --spruce-light: #2d5a0f;
+            --tulip: #bc475f;
+            --ocean: #015f7e;
+            --ocean-light: #0280a8;
+            --cream: #faf8f5;
+            --stone-50: #fafaf9;
+            --stone-100: #f5f5f4;
+            --stone-200: #e7e5e4;
+            --stone-300: #d6d3d1;
+            --stone-400: #a8a29e;
+            --stone-500: #78716c;
+            --stone-600: #57534e;
+            --stone-700: #44403c;
+            --stone-800: #292524;
+            --stone-900: #1c1917;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--stone-50);
+            color: var(--stone-900);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; display: block; }
+
+        /* ============================================
+           TOAST
+           ============================================ */
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+            max-width: 320px;
+        }
+
+        .toast.success { background: var(--spruce); }
+        .toast.info { background: var(--ocean); }
+        .toast.error { background: #ef4444; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(231,229,228,0.6);
+            box-shadow: var(--shadow-sm);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-wheel {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(214,211,208,0.8);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-wheel-inner {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(
+                from -90deg,
+                #ff002b 0deg,
+                #ff6a00 45deg,
+                #ffe600 90deg,
+                #7dff00 135deg,
+                #00ff2a 180deg,
+                #00e5ff 225deg,
+                #005bff 270deg,
+                #7a00ff 315deg,
+                #ff00bf 360deg
+            );
+        }
+
+        .logo-wheel-center {
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid rgba(214,211,208,0.7);
+        }
+
+        .logo-text {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--spruce);
+            letter-spacing: -0.02em;
+        }
+
+        /* Desktop Nav */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--stone-600);
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover { background: var(--stone-100); }
+
+        .nav-btn.active {
+            background: var(--spruce);
+            color: white;
+        }
+
+        .nav-badge {
+            font-size: 0.7rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 9999px;
+            background: var(--tulip);
+            color: white;
+            font-weight: 600;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .nav-btn.active .nav-badge {
+            background: white;
+            color: var(--spruce);
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            color: var(--stone-700);
+            font-size: 1.25rem;
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover { background: var(--stone-100); }
+
+        /* Mobile nav dropdown */
+        .mobile-nav {
+            display: none;
+            position: sticky;
+            top: 64px;
+            z-index: 99;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(231,229,228,0.8);
+            padding: 0.75rem 1rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-nav.open { display: flex; }
+
+        .mobile-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.625rem 0.875rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--stone-700);
+            transition: all 0.2s;
+        }
+
+        .mobile-nav-btn:hover { background: var(--stone-100); }
+        .mobile-nav-btn.active { background: var(--spruce); color: white; }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            position: relative;
+            height: 340px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+            background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(10,26,6,0.55) 100%);
+        }
+
+        .hero-scanlines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.1;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(255,255,255,0.04) 3px,
+                rgba(255,255,255,0.04) 4px
+            );
+        }
+
+        .hero-content {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1.5rem;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-eyebrow-line {
+            height: 1px;
+            width: 40px;
+            background: linear-gradient(to right, transparent, rgba(188,71,95,0.7));
+        }
+
+        .hero-eyebrow-line.right {
+            background: linear-gradient(to left, transparent, rgba(188,71,95,0.7));
+        }
+
+        .hero-eyebrow-text {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: rgba(188,71,95,0.9);
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3.75rem);
+            font-weight: 700;
+            font-style: italic;
+            color: rgba(255,255,255,0.95);
+            line-height: 1.2;
+            text-shadow: 0 2px 30px rgba(0,0,0,0.8), 0 0 80px rgba(188,71,95,0.3);
+            margin-bottom: 0;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.4s forwards;
+        }
+
+        .hero-title-gradient {
+            background: linear-gradient(135deg, #e8c9a0 0%, #bc475f 45%, #015f7e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-dots-row {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            margin: 1.25rem 0;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-dot {
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .hero-dot.center { background: #bc475f; }
+
+        .hero-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .hero-bottom-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            z-index: 20;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent, #fafaf9);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           MAIN CONTENT WRAPPER
+           ============================================ */
+        .main { flex: 1; }
+
+        /* ============================================
+           TABS CONTENT
+           ============================================ */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ============================================
+           SECTION CONTAINER
+           ============================================ */
+        .section-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 2rem;
+        }
+
+        /* ============================================
+           CARD
+           ============================================ */
+        .card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--stone-200);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--spruce);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ============================================
+           UPLOAD AREA
+           ============================================ */
+        .upload-zone {
+            border: 2px dashed var(--stone-300);
+            border-radius: var(--radius-xl);
+            height: 16rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--stone-50);
+        }
+
+        .upload-zone:hover { border-color: var(--tulip); }
+        .upload-zone.dragover {
+            border-color: var(--tulip);
+            background: rgba(188,71,95,0.03);
+        }
+
+        .upload-icon {
+            font-size: 2.25rem;
+            color: var(--stone-400);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-text {
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--stone-600);
+        }
+
+        .upload-hint {
+            font-size: 0.75rem;
+            color: var(--stone-400);
+            margin-top: 0.25rem;
+        }
+
+        /* ============================================
+           IMAGE PREVIEW CONTAINER
+           ============================================ */
+        .img-wrapper {
+            position: relative;
+        }
+
+        .img-scroll-container {
+            overflow: auto;
+            border: 1px solid var(--stone-200);
+            border-radius: var(--radius-xl);
+            cursor: crosshair;
+            background: rgba(0,0,0,0.03);
+            max-height: 480px;
+        }
+
+        .preview-img {
+            display: block;
+            max-width: none;
+            user-select: none;
+        }
+
+        /* Zoom badge */
+        .zoom-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            backdrop-filter: blur(4px);
+            z-index: 40;
+            display: none;
+        }
+
+        /* Magnifier */
+        .magnifier-loupe {
+            position: absolute;
+            pointer-events: none;
+            z-index: 50;
+            display: none;
+        }
+
+        .magnifier-canvas-wrap {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.9), 0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        .magnifier-label {
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(4px);
+            border-radius: 0.5rem;
+            padding: 0.375rem 0.625rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--stone-100);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .magnifier-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            border: 1px solid rgba(214,211,208,0.6);
+            flex-shrink: 0;
+        }
+
+        .magnifier-name {
+            font-family: var(--font-serif);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--stone-800);
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .magnifier-hex {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--stone-500);
+        }
+
+        /* Zoom controls */
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 0.25rem;
+        }
+
+        .zoom-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            background: var(--stone-100);
+            color: var(--stone-700);
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .zoom-btn:hover { background: var(--stone-200); }
+
+        .zoom-track {
+            flex: 1;
+            position: relative;
+            height: 6px;
+            background: var(--stone-200);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .zoom-fill {
+            position: absolute;
+            inset-y: 0;
+            left: 0;
+            border-radius: 9999px;
+            background: var(--ocean);
+            transition: width 0.15s;
+        }
+
+        .zoom-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--stone-500);
+            width: 40px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* Action buttons below image */
+        .img-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .img-action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .img-action-btn.secondary {
+            background: var(--stone-100);
+            color: var(--stone-600);
+        }
+
+        .img-action-btn.secondary:hover { background: var(--stone-200); }
+
+        .img-action-btn.primary {
+            background: var(--ocean);
+            color: white;
+        }
+
+        .img-action-btn.primary:hover { background: var(--ocean-light); }
+
+        .img-tip {
+            text-align: center;
+            font-size: 0.625rem;
+            color: var(--stone-400);
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           DOMINANT COLORS STRIP
+           ============================================ */
+        .dominant-title {
+            font-family: var(--font-serif);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--spruce);
+            margin-bottom: 0.75rem;
+        }
+
+        .color-bar {
+            display: flex;
+            width: 100%;
+            height: 40px;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid var(--stone-200);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 0.75rem;
+        }
+
+        .color-bar-seg {
+            flex: 1;
+            height: 100%;
+            transition: flex 0.2s;
+            position: relative;
+            border: none;
+            cursor: pointer;
+        }
+
+        .color-bar-seg:hover { flex: 2; }
+
+        .color-bar-seg.selected::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.8);
+        }
+
+        .color-swatches-row {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+        }
+
+        .color-swatch-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.375rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-swatch-item:hover { transform: scale(1.05); }
+
+        .swatch-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--stone-200);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .swatch-circle.selected {
+            border-color: var(--stone-700);
+            transform: scale(1.1);
+        }
+
+        .swatch-hex {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: var(--stone-400);
+        }
+
+        /* ============================================
+           COLOR DETAIL PANEL (right side)
+           ============================================ */
+        .detail-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .color-preview-box {
+            width: 100%;
+            height: 192px;
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--stone-200);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .color-preview-actions {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            display: flex;
+            gap: 0.375rem;
+        }
+
+        .preview-action-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            color: var(--stone-700);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .preview-action-btn:hover { background: white; }
+        .preview-action-btn.save { color: var(--tulip); }
+
+        .color-spec-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--stone-400);
+        }
+
+        .color-spec-name {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--stone-800);
+            margin-top: 0.25rem;
+        }
+
+        .color-spec-hex {
+            display: inline-block;
+            background: var(--stone-100);
+            color: var(--stone-700);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+
+        .color-spec-hex:hover { background: var(--stone-200); }
+
+        .color-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--stone-100);
+            font-size: 0.875rem;
+        }
+
+        .color-meta-item { color: var(--stone-400); }
+        .color-meta-item span { font-weight: 500; color: var(--stone-800); margin-left: 0.25rem; }
+
+        /* RGB/HSL bars */
+        .stat-panels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-panel {
+            padding: 1rem;
+            background: var(--stone-50);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(231,229,228,0.6);
+        }
+
+        .stat-panel-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--stone-400);
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--stone-200);
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 9999px;
+        }
+
+        .contrast-box {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem;
+            height: 100%;
+            min-height: 300px;
+            color: var(--stone-400);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.4;
+        }
+
+        .empty-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--stone-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-text {
+            font-size: 0.875rem;
+            color: var(--stone-500);
+            max-width: 280px;
+        }
+
+        /* ============================================
+           MUSEUM SECTION
+           ============================================ */
+        .museum-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .museum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .museum-title {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--spruce);
+        }
+
+        .museum-subtitle {
+            font-size: 0.875rem;
+            color: var(--stone-500);
+            margin-top: 0.25rem;
+        }
+
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background: var(--ocean);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .export-btn:hover { background: var(--ocean-light); }
+
+        .museum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .museum-card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--stone-200);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .museum-card-swatch {
+            height: 8rem;
+            position: relative;
+        }
+
+        .museum-card-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            gap: 0.375rem;
+        }
+
+        .museum-card:hover .museum-card-actions { opacity: 1; }
+
+        .museum-action-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            transition: background 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .museum-action-btn:hover { background: white; }
+        .museum-action-btn.delete { color: #ef4444; }
+
+        .museum-card-body {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .museum-card-name {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--stone-800);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .museum-card-hex {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--stone-600);
+            cursor: pointer;
+            margin-top: 0.25rem;
+        }
+
+        .museum-card-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.25rem 0.5rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--stone-100);
+            font-size: 0.7rem;
+            color: var(--stone-500);
+        }
+
+        .museum-card-meta span { color: var(--stone-800); }
+
+        .museum-copy-btn {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.375rem;
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.1em;
+            color: var(--stone-600);
+            border: 1px solid var(--stone-200);
+            border-radius: 0.5rem;
+            background: var(--stone-50);
+            transition: background 0.2s;
+        }
+
+        .museum-copy-btn:hover { background: var(--stone-100); }
+
+        /* ============================================
+           COLOR BLINDNESS SECTION
+           ============================================ */
+        .blindness-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 2rem;
+        }
+
+        .sim-type-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sim-type-btn {
+            padding: 0.5rem 0.25rem;
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            font-weight: 500;
+            border-radius: 0.5rem;
+            border: 1px solid var(--stone-200);
+            background: var(--stone-100);
+            color: var(--stone-600);
+            transition: all 0.2s;
+        }
+
+        .sim-type-btn:hover { background: var(--stone-200); }
+
+        .sim-type-btn.active {
+            background: var(--spruce);
+            color: white;
+            border-color: transparent;
+        }
+
+        .sim-canvas-container {
+            position: relative;
+            border: 1px solid var(--stone-200);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            height: 384px;
+            cursor: crosshair;
+        }
+
+        .sim-canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--stone-200);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+        }
+
+        .about-title {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--spruce);
+            margin-bottom: 0.75rem;
+        }
+
+        .about-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .about-item {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--stone-600);
+            line-height: 1.5;
+        }
+
+        .about-item strong {
+            color: var(--stone-800);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            border-top: 1px solid var(--stone-200);
+            padding: 1.5rem;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--stone-400);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .section-container,
+            .blindness-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-panels {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav { display: none; }
+            .menu-toggle { display: flex; }
+
+            .hero { height: 280px; }
+
+            .hero-title { font-size: 1.75rem; }
+
+            .section-container,
+            .blindness-container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .stat-panels { grid-template-columns: 1fr; }
+
+            .sim-type-grid { grid-template-columns: repeat(2, 1fr); }
+
+            .museum-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .museum-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 1.5rem; }
+        }
+
+        /* ============================================
+           LAPTOP SCREENS
+           ============================================ */
+        @media (min-width: 1280px) {
+            .hero { height: 380px; }
+            .hero-title { font-size: 4rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-   <nav class="nav">
-    <div class="nav-container">
-        <a href="index.html" class="logo">
-            <img src="images/stipple-logo.png" alt="Stipple Logo" class="site-logo">
-        </a>
 
-        <button class="menu-toggle" id="menuToggle">☰</button>
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
 
-        <div class="nav-links" id="navLinks">
-           <a href="index.html" class="nav-link active">Analyze</a>
-           <a href="color-blindness.html" class="nav-link">Color Blindness</a>
-           <a href="gallery.html" class="nav-link">My Gallery
-           <span class="gallery-count" id="galleryCount">0</span>
-</a>
+<!-- Header -->
+<header class="header">
+    <div class="header-logo">
+        <div class="logo-wheel">
+            <div class="logo-wheel-inner"></div>
+            <div class="logo-wheel-center"></div>
         </div>
+        <span class="logo-text">Stipple</span>
     </div>
-</nav>
 
-    <!-- Hero Section with Stipple Animation -->
-    <section class="hero" id="hero">
+    <nav class="header-nav">
+        <button class="nav-btn active" onclick="switchTab('analyze', this)">
+            🎨 Color Lab
+        </button>
+        <button class="nav-btn" onclick="switchTab('museum', this)">
+            🖼 Museum
+            <span class="nav-badge" id="museumBadge" style="display:none">0</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('blindness', this)">
+            👁 Color Vision
+        </button>
+    </nav>
+
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">☰</button>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-btn active" onclick="switchTab('analyze', this); closeMobileMenu()">
+        🎨 Color Lab
+    </button>
+    <button class="mobile-nav-btn" onclick="switchTab('museum', this); closeMobileMenu()">
+        <span>🖼 Museum</span>
+        <span class="nav-badge" id="museumBadgeMobile" style="display:none">0</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="switchTab('blindness', this); closeMobileMenu()">
+        👁 Color Vision
+    </button>
+</div>
+
+<!-- Hero -->
+<section class="hero">
     <canvas id="stippleCanvas"></canvas>
-    <div class="hero-overlay"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-scanlines"></div>
     <div class="hero-content">
-        <p class="hero-tagline">
-            <span class="tagline-line"></span>
-            Color Analysis Studio
-            <span class="tagline-line"></span>
-        </p>
+        <div class="hero-eyebrow">
+            <div class="hero-eyebrow-line"></div>
+            <span class="hero-eyebrow-text">Color Analysis Studio</span>
+            <div class="hero-eyebrow-line right"></div>
+        </div>
         <h1 class="hero-title">
             "Every Dot Tells a<br>
-            <span class="gradient-text">Color Story</span>"
+            <span class="hero-title-gradient">Color Story</span>"
         </h1>
-        <div class="hero-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span class="center"></span>
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="hero-dots-row">
+            <div class="hero-dot" style="width:3px;height:3px"></div>
+            <div class="hero-dot" style="width:3px;height:3px"></div>
+            <div class="hero-dot" style="width:5px;height:5px;opacity:0.5"></div>
+            <div class="hero-dot center" style="width:8px;height:8px"></div>
+            <div class="hero-dot" style="width:5px;height:5px;opacity:0.5"></div>
+            <div class="hero-dot" style="width:3px;height:3px"></div>
+            <div class="hero-dot" style="width:3px;height:3px"></div>
         </div>
         <p class="hero-subtitle">The Art and Science of Chromatic Discovery</p>
     </div>
+    <div class="hero-bottom-fade"></div>
 </section>
 
-    <!-- Main Content -->
-    <main class="main">
-        <!-- Upload Section -->
-        <section class="upload-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Upload Your Artwork</h2>
-                    <p>Discover the hidden palette within any image</p>
-                </div>
-                
-                <div class="upload-area" id="uploadArea">
-                    <input type="file" id="fileInput" accept="image/*" hidden>
-                    <div class="upload-content" id="uploadContent">
-                        <div class="upload-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="17 8 12 3 7 8"/>
-                                <line x1="12" y1="3" x2="12" y2="15"/>
-                            </svg>
-                        </div>
-                        <p class="upload-text">Drop your image here or <span>browse</span></p>
-                        <p class="upload-hint">Supports JPG, PNG, WebP up to 10MB</p>
+<!-- Main -->
+<main class="main">
+
+    <!-- =================== ANALYZE TAB =================== -->
+    <div class="tab-content active" id="tab-analyze">
+        <div class="section-container">
+
+            <!-- LEFT COLUMN -->
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+                <!-- Upload Card -->
+                <div class="card">
+                    <div class="card-title">⬆ Upload Image</div>
+
+                    <!-- Upload Zone -->
+                    <div id="uploadZone" class="upload-zone"
+                         onclick="document.getElementById('fileInput').click()"
+                         ondragover="event.preventDefault();this.classList.add('dragover')"
+                         ondragleave="this.classList.remove('dragover')"
+                         ondrop="handleDrop(event)">
+                        <input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(this.files[0])">
+                        <div class="upload-icon">⬆</div>
+                        <p class="upload-text">Click to upload or drag & drop</p>
+                        <p class="upload-hint">JPG, PNG, WEBP (Max 15MB)</p>
                     </div>
-                    
-                    <!-- Image Preview -->
-                    <div class="image-preview" id="imagePreview" hidden>
-                        <img id="previewImg" src="" alt="Preview">
-                        <button class="remove-btn" id="removeImage">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </svg>
+
+                    <!-- Image Preview (hidden until image loaded) -->
+                    <div id="imageSection" style="display:none;flex-direction:column;gap:0.75rem;">
+                        <div class="img-wrapper" id="imgWrapper">
+                            <div class="img-scroll-container" id="imgScrollContainer">
+                                <img id="previewImg" class="preview-img"
+                                     onmousemove="handleImgMouseMove(event)"
+                                     onmouseenter="showMagnifier()"
+                                     onmouseleave="hideMagnifier()"
+                                     onclick="handleImgClick(event)"
+                                     draggable="false">
+                                <canvas id="hiddenCanvas" style="display:none"></canvas>
+                            </div>
+                            <div class="zoom-badge" id="zoomBadge"></div>
+                            <!-- Magnifier -->
+                            <div class="magnifier-loupe" id="magnifierLoupe">
+                                <div class="magnifier-canvas-wrap" id="magnifierBorder">
+                                    <canvas id="magnifierCanvas" width="160" height="160"></canvas>
+                                </div>
+                                <div class="magnifier-label">
+                                    <div class="magnifier-swatch" id="magnifierSwatch"></div>
+                                    <span class="magnifier-name" id="magnifierName">—</span>
+                                    <span class="magnifier-hex" id="magnifierHex">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Zoom controls -->
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" onclick="adjustZoom(-0.5)">−</button>
+                            <div class="zoom-track">
+                                <div class="zoom-fill" id="zoomFill" style="width:0%"></div>
+                            </div>
+                            <button class="zoom-btn" onclick="adjustZoom(0.5)">+</button>
+                            <span class="zoom-label" id="zoomLabel">1.0×</span>
+                        </div>
+
+                        <!-- Action buttons -->
+                        <div class="img-actions">
+                            <button class="img-action-btn secondary"
+                                onclick="document.getElementById('fileInput').click()">
+                                Change Image
+                            </button>
+                            <button class="img-action-btn primary" onclick="analyzeImage()">
+                                Re-Analyze
+                            </button>
+                        </div>
+
+                        <p class="img-tip">Scroll over image to zoom · Hover to magnify · Click to lock color</p>
+                    </div>
+                </div>
+
+                <!-- Dominant Colors Card -->
+                <div class="card" id="dominantCard" style="display:none;">
+                    <div class="dominant-title">Dominant Colors</div>
+                    <div class="color-bar" id="colorBar"></div>
+                    <div class="color-swatches-row" id="colorSwatches"></div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div>
+                <div class="card" id="detailCard" style="min-height:400px;">
+                    <!-- Color detail shown here -->
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">🎨</div>
+                        <p class="empty-title">No Image Uploaded</p>
+                        <p class="empty-text">Upload an image and hover over pixels to view full specification details.</p>
+                    </div>
+                    <div id="colorDetail" style="display:none;"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =================== MUSEUM TAB =================== -->
+    <div class="tab-content" id="tab-museum">
+        <div class="museum-container">
+            <div class="museum-header">
+                <div>
+                    <h2 class="museum-title">My Virtual Museum</h2>
+                    <p class="museum-subtitle">Your curated collection of visual storytelling.</p>
+                </div>
+                <button class="export-btn" onclick="exportMuseum()" id="exportBtn" style="display:none;">
+                    ⬇ Export JSON
+                </button>
+            </div>
+            <div id="museumContent"></div>
+        </div>
+    </div>
+
+    <!-- =================== COLOR BLINDNESS TAB =================== -->
+    <div class="tab-content" id="tab-blindness">
+        <div class="blindness-container">
+
+            <!-- LEFT COLUMN -->
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
+                <div class="card">
+                    <div class="card-title">👁 Color Vision Simulation</div>
+
+                    <!-- Upload Zone -->
+                    <div id="blindUploadZone" class="upload-zone"
+                         onclick="document.getElementById('blindFileInput').click()"
+                         ondragover="event.preventDefault();this.classList.add('dragover')"
+                         ondragleave="this.classList.remove('dragover')"
+                         ondrop="handleBlindDrop(event)">
+                        <input type="file" id="blindFileInput" accept="image/*" hidden onchange="handleBlindFile(this.files[0])">
+                        <div class="upload-icon">⬆</div>
+                        <p class="upload-text">Upload image to simulate visual types</p>
+                        <p class="upload-hint">Check how others see your image</p>
+                    </div>
+
+                    <!-- Sim controls -->
+                    <div id="blindSection" style="display:none;flex-direction:column;gap:1rem;">
+                        <div class="sim-type-grid">
+                            <button class="sim-type-btn active" onclick="setSimType('Standard', this)">Standard</button>
+                            <button class="sim-type-btn" onclick="setSimType('Protanopia', this)">Protanopia</button>
+                            <button class="sim-type-btn" onclick="setSimType('Deuteranopia', this)">Deuteranopia</button>
+                            <button class="sim-type-btn" onclick="setSimType('Tritanopia', this)">Tritanopia</button>
+                        </div>
+                        <div class="sim-canvas-container">
+                            <canvas id="simCanvas" class="sim-canvas"
+                                onmousemove="handleSimMouseMove(event)"></canvas>
+                            <img id="blindHiddenImg" style="display:none">
+                        </div>
+                        <button class="img-action-btn secondary" style="width:100%;"
+                            onclick="document.getElementById('blindFileInput').click()">
+                            Change Image
                         </button>
                     </div>
                 </div>
 
-                <button class="extract-btn" id="extractBtn" disabled>
-                    <span>Extract Colors</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 16l4-4-4-4"/>
-                        <path d="M8 12h8"/>
-                    </svg>
-                </button>
-            </div>
-        </section>
-
-        <!-- Color Picker Section (appears after extraction) -->
-        <section class="picker-section" id="pickerSection" hidden>
-            <div class="container">
-                <div class="section-header">
-                    <h2>Color Explorer</h2>
-                    <p>Hover anywhere on the image to discover colors</p>
-                </div>
-                
-                <div class="picker-container">
-                    <div class="picker-canvas-wrapper">
-                        <canvas id="pickerCanvas"></canvas>
-                        <div class="magnifier" id="magnifier">
-                            <canvas id="magnifierCanvas" width="100" height="100"></canvas>
-                            <div class="magnifier-crosshair"></div>
-                        </div>
-                        <div class="color-tooltip" id="colorTooltip">
-                            <div class="tooltip-swatch" id="tooltipSwatch"></div>
-                            <span class="tooltip-hex" id="tooltipHex">#FFFFFF</span>
-                        </div>
-                    </div>
-                    
-                    <div class="live-color-info" id="liveColorInfo">
-                        <div class="live-swatch" id="liveSwatch"></div>
-                        <div class="live-details">
-                            <h4 id="liveColorName">Hover to pick</h4>
-                            <div class="live-values">
-                                <div class="value-group">
-                                    <span class="label">HEX</span>
-                                    <span class="value" id="liveHex">—</span>
-                                </div>
-                                <div class="value-group">
-                                    <span class="label">RGB</span>
-                                    <span class="value" id="liveRgb">—</span>
-                                </div>
-                                <div class="value-group">
-                                    <span class="label">HSL</span>
-                                    <span class="value" id="liveHsl">—</span>
-                                </div>
-                            </div>
-                            <button class="add-color-btn" id="addPickedColor" disabled>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="12" y1="5" x2="12" y2="19"/>
-                                    <line x1="5" y1="12" x2="19" y2="12"/>
-                                </svg>
-                                Add to Palette
-                            </button>
-                        </div>
+                <div class="about-card">
+                    <div class="about-title">About Vision Deficiencies</div>
+                    <div class="about-list">
+                        <div class="about-item"><strong>Protanopia:</strong> Lack of red cones. Reds look dimmer and shift toward brown/green.</div>
+                        <div class="about-item"><strong>Deuteranopia:</strong> Lack of green cones. Difficulty distinguishing green and red.</div>
+                        <div class="about-item"><strong>Tritanopia:</strong> Lack of blue cones. Difficulty distinguishing blue and yellow.</div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Extracted Colors Section -->
-        <section class="colors-section" id="colorsSection" hidden>
-            <div class="container">
-                <div class="section-header">
-                    <h2>Dominant Palette</h2>
-                    <p>The main colors found in your artwork</p>
-                </div>
-                
-                <div class="colors-grid" id="colorsGrid"></div>
-                
-                <div class="palette-actions">
-                    <button class="action-btn save-artwork-btn" id="saveArtworkBtn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-                        </svg>
-                        Save Artwork to Gallery
-                    </button>
+            <!-- RIGHT COLUMN -->
+            <div>
+                <div class="card" style="min-height:400px;">
+                    <div class="empty-state" id="blindEmptyState">
+                        <div class="empty-icon">👁</div>
+                        <p class="empty-title">No Simulation Active</p>
+                        <p class="empty-text">Upload an image, pick a color blindness type, and hover to inspect.</p>
+                    </div>
+                    <div id="blindColorDetail" style="display:none;"></div>
                 </div>
             </div>
-        </section>
 
-        <!-- Custom Palette Section -->
-        <section class="custom-palette-section" id="customPaletteSection" hidden>
-            <div class="container">
-                <div class="section-header">
-                    <h2>Your Custom Palette</h2>
-                    <p>Colors you've picked from the image</p>
-                </div>
-                
-                <div class="custom-palette" id="customPalette"></div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <span class="toast-message"></span>
-    </div>
-
-    <!-- Color Detail Modal -->
-    <div class="modal" id="colorModal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            </button>
-            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Stipple. Every Dot Tells a Color Story.</p>
-        </div>
-    </footer>
+</main>
 
-    <script src="js/color-utils.js"></script>
-    <script src="js/stipple-animation.js"></script>
-    <script src="js/main.js"></script>
+<!-- Footer -->
+<footer class="footer">
+    © 2026 STIPPLE LABS. ALL RIGHTS RESERVED.
+</footer>
+
+<script src="js/color-utils.js"></script>
+<script src="js/stipple-animation.js"></script>
+<script>
+// ============================================
+// STIPPLE - Main App Logic
+// ============================================
+
+// ---- STATE ----
+let currentImage = null;
+let hiddenCanvas = null;
+let zoom = 1;
+let selectedColor = null;
+let dominantColors = [];
+let hoverActive = false;
+let museum = [];
+let currentSimType = 'Standard';
+let blindImage = null;
+let blindCanvas = null;
+
+// ---- INIT ----
+window.addEventListener('DOMContentLoaded', function() {
+    hiddenCanvas = document.getElementById('hiddenCanvas');
+    blindCanvas = document.getElementById('simCanvas');
+    loadMuseum();
+    setupWheelZoom();
+});
+
+// ---- TABS ----
+function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+    if (tab === 'museum') renderMuseum();
+}
+
+function toggleMobileMenu() {
+    const nav = document.getElementById('mobileNav');
+    const toggle = document.getElementById('menuToggle');
+    nav.classList.toggle('open');
+    toggle.textContent = nav.classList.contains('open') ? '✕' : '☰';
+}
+
+function closeMobileMenu() {
+    document.getElementById('mobileNav').classList.remove('open');
+    document.getElementById('menuToggle').textContent = '☰';
+}
+
+// ---- TOAST ----
+function showToast(message, type) {
+    type = type || 'success';
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(function() { container.removeChild(toast); }, 300);
+    }, 3000);
+}
+
+// ---- FILE UPLOAD ----
+function handleFile(file) {
+    if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+        showToast('File too large! Max 15MB.', 'error');
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        currentImage = new Image();
+        currentImage.onload = function() {
+            document.getElementById('uploadZone').style.display = 'none';
+            const imgSection = document.getElementById('imageSection');
+            imgSection.style.display = 'flex';
+            const previewImg = document.getElementById('previewImg');
+            previewImg.src = e.target.result;
+            zoom = 1;
+            updateZoomUI();
+            previewImg.onload = function() {
+                drawHiddenCanvas();
+                analyzeImage();
+            };
+        };
+        currentImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    document.getElementById('uploadZone').classList.remove('dragover');
+    const file = event.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) handleFile(file);
+}
+
+// ---- CANVAS ----
+function drawHiddenCanvas() {
+    if (!currentImage) return;
+    hiddenCanvas.width = currentImage.naturalWidth;
+    hiddenCanvas.height = currentImage.naturalHeight;
+    const ctx = hiddenCanvas.getContext('2d');
+    ctx.drawImage(currentImage, 0, 0);
+}
+
+// ---- ANALYZE ----
+function analyzeImage() {
+    if (!currentImage || !hiddenCanvas.width) return;
+    dominantColors = ColorUtils.extractDominantColors(
+        hiddenCanvas.getContext('2d').getImageData(0, 0, hiddenCanvas.width, hiddenCanvas.height), 8
+    );
+    renderDominantColors();
+    if (dominantColors.length > 0) showColorDetail(dominantColors[0]);
+}
+
+// ---- DOMINANT COLORS ----
+function renderDominantColors() {
+    document.getElementById('dominantCard').style.display = 'block';
+    const bar = document.getElementById('colorBar');
+    const swatches = document.getElementById('colorSwatches');
+    bar.innerHTML = '';
+    swatches.innerHTML = '';
+
+    dominantColors.forEach(function(color, i) {
+        const seg = document.createElement('button');
+        seg.className = 'color-bar-seg';
+        seg.style.backgroundColor = color.hex;
+        seg.title = color.name + ' · ' + color.hex;
+        seg.onclick = function() {
+            document.querySelectorAll('.color-bar-seg').forEach(s => s.classList.remove('selected'));
+            document.querySelectorAll('.swatch-circle').forEach(s => s.classList.remove('selected'));
+            seg.classList.add('selected');
+            document.querySelectorAll('.swatch-circle')[i].classList.add('selected');
+            showColorDetail(color);
+        };
+        if (i === 0) seg.classList.add('selected');
+        bar.appendChild(seg);
+
+        const item = document.createElement('div');
+        item.className = 'color-swatch-item';
+        item.onclick = function() {
+            document.querySelectorAll('.color-bar-seg').forEach(s => s.classList.remove('selected'));
+            document.querySelectorAll('.swatch-circle').forEach(s => s.classList.remove('selected'));
+            document.querySelectorAll('.color-bar-seg')[i].classList.add('selected');
+            item.querySelector('.swatch-circle').classList.add('selected');
+            showColorDetail(color);
+        };
+
+        const circle = document.createElement('div');
+        circle.className = 'swatch-circle' + (i === 0 ? ' selected' : '');
+        circle.style.backgroundColor = color.hex;
+
+        const hex = document.createElement('span');
+        hex.className = 'swatch-hex';
+        hex.textContent = color.hex.toUpperCase();
+
+        item.appendChild(circle);
+        item.appendChild(hex);
+        swatches.appendChild(item);
+    });
+}
+
+// ---- COLOR DETAIL ----
+function showColorDetail(color) {
+    selectedColor = color;
+    document.getElementById('emptyState').style.display = 'none';
+    const detail = document.getElementById('colorDetail');
+    detail.style.display = 'block';
+
+    const hsl = color.hsl || ColorUtils.rgbToHsl(color.rgb.r, color.rgb.g, color.rgb.b);
+    const textColor = hsl.l > 55 ? '#000000' : '#ffffff';
+
+    detail.innerHTML =
+        '<div style="display:flex;flex-direction:column;gap:1.5rem;">' +
+            // Top: swatch + spec
+            '<div style="display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;">' +
+                '<div class="color-preview-box" style="background:' + color.hex + ';width:192px;flex-shrink:0;">' +
+                    '<div class="color-preview-actions">' +
+                        '<button class="preview-action-btn" onclick="copyColor(\'' + color.hex + '\')" title="Copy HEX">📋</button>' +
+                        '<button class="preview-action-btn save" onclick="saveToMuseum()" title="Save to Museum">♥</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div style="flex:1;min-width:160px;">' +
+                    '<div class="color-spec-label">SPECIFICATION</div>' +
+                    '<div class="color-spec-name">' + color.name + '</div>' +
+                    '<div class="color-spec-hex" onclick="copyColor(\'' + color.hex + '\')">' + color.hex.toUpperCase() + '</div>' +
+                    '<div class="color-meta-grid">' +
+                        '<div class="color-meta-item">Temp:<span>' + color.temperature + '</span></div>' +
+                        '<div class="color-meta-item">Type:<span>' + color.type + '</span></div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            // Stats
+            '<div class="stat-panels">' +
+                // RGB
+                '<div class="stat-panel">' +
+                    '<div class="stat-panel-label">RGB Spectrum</div>' +
+                    '<div class="stat-row"><span>Red</span><span style="color:#dc2626;">' + color.rgb.r + '</span></div>' +
+                    '<div class="stat-bar"><div class="stat-bar-fill" style="width:' + ((color.rgb.r/255)*100) + '%;background:#ef4444;"></div></div>' +
+                    '<div class="stat-row"><span>Green</span><span style="color:#16a34a;">' + color.rgb.g + '</span></div>' +
+                    '<div class="stat-bar"><div class="stat-bar-fill" style="width:' + ((color.rgb.g/255)*100) + '%;background:#22c55e;"></div></div>' +
+                    '<div class="stat-row"><span>Blue</span><span style="color:#2563eb;">' + color.rgb.b + '</span></div>' +
+                    '<div class="stat-bar"><div class="stat-bar-fill" style="width:' + ((color.rgb.b/255)*100) + '%;background:#3b82f6;"></div></div>' +
+                '</div>' +
+                // HSL
+                '<div class="stat-panel">' +
+                    '<div class="stat-panel-label">HSL Profile</div>' +
+                    '<div class="stat-row"><span>Hue</span><span>' + hsl.h + '°</span></div>' +
+                    '<div class="stat-bar"><div class="stat-bar-fill" style="width:' + ((hsl.h/360)*100) + '%;background:#78716c;"></div></div>' +
+                    '<div class="stat-row"><span>Sat</span><span>' + hsl.s + '%</span></div>' +
+                    '<div class="stat-bar"><div class="stat-bar-fill" style="width:' + hsl.s + '%;background:#78716c;"></div></div>' +
+                    '<div class="stat-row"><span>Lum</span><span>' + hsl.l + '%</span></div>' +
+                    '<div class="stat-bar"><div class="stat-bar-fill" style="width:' + hsl.l + '%;background:#78716c;"></div></div>' +
+                '</div>' +
+                // Contrast
+                '<div class="stat-panel">' +
+                    '<div class="stat-panel-label">Contrast Check</div>' +
+                    '<div class="contrast-box" style="background:' + color.hex + ';color:' + textColor + ';">Text Visibility</div>' +
+                    '<div style="font-size:0.65rem;color:var(--stone-500);margin-top:0.5rem;font-family:var(--font-mono);">Readability test for accessible UI design.</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+}
+
+// ---- MOUSE INTERACTION ----
+function handleImgMouseMove(event) {
+    if (!hiddenCanvas || !hiddenCanvas.width) return;
+    const img = event.target;
+    const rect = img.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const scaleX = img.naturalWidth / rect.width;
+    const scaleY = img.naturalHeight / rect.height;
+    const px = Math.floor(x * scaleX);
+    const py = Math.floor(y * scaleY);
+
+    if (px < 0 || px >= hiddenCanvas.width || py < 0 || py >= hiddenCanvas.height) return;
+
+    const ctx = hiddenCanvas.getContext('2d');
+    const pixel = ctx.getImageData(px, py, 1, 1).data;
+    const r = pixel[0], g = pixel[1], b = pixel[2];
+    const hex = ColorUtils.rgbToHex(r, g, b);
+    const hsl = ColorUtils.rgbToHsl(r, g, b);
+    const colorName = ColorUtils.findColorName(r, g, b);
+
+    const hoverColor = {
+        hex: hex,
+        rgb: { r: r, g: g, b: b },
+        hsl: hsl,
+        name: colorName.name,
+        temperature: ColorUtils.getColorTemperature(hsl.h, hsl.s, hsl.l),
+        type: ColorUtils.getColorType(hsl.h, hsl.s, hsl.l)
+    };
+
+    updateMagnifier(event, px, py, hoverColor);
+    showColorDetail(hoverColor);
+}
+
+function handleImgClick(event) {
+    const img = event.target;
+    const rect = img.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const scaleX = img.naturalWidth / rect.width;
+    const scaleY = img.naturalHeight / rect.height;
+    const px = Math.floor(x * scaleX);
+    const py = Math.floor(y * scaleY);
+
+    if (!hiddenCanvas || px < 0 || px >= hiddenCanvas.width || py < 0 || py >= hiddenCanvas.height) return;
+
+    const ctx = hiddenCanvas.getContext('2d');
+    const pixel = ctx.getImageData(px, py, 1, 1).data;
+    const r = pixel[0], g = pixel[1], b = pixel[2];
+    const hex = ColorUtils.rgbToHex(r, g, b);
+    const hsl = ColorUtils.rgbToHsl(r, g, b);
+    const colorName = ColorUtils.findColorName(r, g, b);
+
+    selectedColor = {
+        hex: hex,
+        rgb: { r: r, g: g, b: b },
+        hsl: hsl,
+        name: colorName.name,
+        temperature: ColorUtils.getColorTemperature(hsl.h, hsl.s, hsl.l),
+        type: ColorUtils.getColorType(hsl.h, hsl.s, hsl.l)
+    };
+
+    showToast('Locked: ' + hex, 'info');
+}
+
+function showMagnifier() {
+    document.getElementById('magnifierLoupe').style.display = 'block';
+}
+
+function hideMagnifier() {
+    document.getElementById('magnifierLoupe').style.display = 'none';
+}
+
+function updateMagnifier(event, px, py, color) {
+    const loupe = document.getElementById('magnifierLoupe');
+    const wrapper = document.getElementById('imgWrapper');
+    const wRect = wrapper.getBoundingClientRect();
+
+    const MAG_SIZE = 160;
+    const SAMPLE_RADIUS = 8;
+    const SAMPLE_SIZE = SAMPLE_RADIUS * 2 + 1;
+    const PIXEL_SIZE = MAG_SIZE / SAMPLE_SIZE;
+
+    const magCanvas = document.getElementById('magnifierCanvas');
+    const magCtx = magCanvas.getContext('2d');
+    magCanvas.width = MAG_SIZE;
+    magCanvas.height = MAG_SIZE;
+
+    magCtx.imageSmoothingEnabled = false;
+    magCtx.fillStyle = '#111';
+    magCtx.fillRect(0, 0, MAG_SIZE, MAG_SIZE);
+
+    const srcX = px - SAMPLE_RADIUS;
+    const srcY = py - SAMPLE_RADIUS;
+    const cx = Math.max(0, srcX);
+    const cy = Math.max(0, srcY);
+    const cex = Math.min(hiddenCanvas.width, srcX + SAMPLE_SIZE);
+    const cey = Math.min(hiddenCanvas.height, srcY + SAMPLE_SIZE);
+    const cw = cex - cx;
+    const ch = cey - cy;
+
+    if (cw > 0 && ch > 0) {
+        const dx = (cx - srcX) * PIXEL_SIZE;
+        const dy = (cy - srcY) * PIXEL_SIZE;
+        magCtx.drawImage(hiddenCanvas, cx, cy, cw, ch, dx, dy, cw * PIXEL_SIZE, ch * PIXEL_SIZE);
+    }
+
+    magCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+    magCtx.lineWidth = 0.5;
+    for (let i = 0; i <= SAMPLE_SIZE; i++) {
+        const pos = i * PIXEL_SIZE;
+        magCtx.beginPath(); magCtx.moveTo(pos, 0); magCtx.lineTo(pos, MAG_SIZE); magCtx.stroke();
+        magCtx.beginPath(); magCtx.moveTo(0, pos); magCtx.lineTo(MAG_SIZE, pos); magCtx.stroke();
+    }
+
+    const cp = SAMPLE_RADIUS * PIXEL_SIZE;
+    magCtx.strokeStyle = 'rgba(0,0,0,0.6)';
+    magCtx.lineWidth = 3;
+    magCtx.strokeRect(cp, cp, PIXEL_SIZE, PIXEL_SIZE);
+    magCtx.strokeStyle = '#ffffff';
+    magCtx.lineWidth = 1.5;
+    magCtx.strokeRect(cp + 1, cp + 1, PIXEL_SIZE - 2, PIXEL_SIZE - 2);
+
+    document.getElementById('magnifierBorder').style.borderColor = color.hex;
+    document.getElementById('magnifierSwatch').style.backgroundColor = color.hex;
+    document.getElementById('magnifierName').textContent = color.name;
+    document.getElementById('magnifierHex').textContent = color.hex.toUpperCase();
+
+    const mouseX = event.clientX - wRect.left;
+    const mouseY = event.clientY - wRect.top;
+    const offset = 24;
+    const cw2 = wrapper.clientWidth;
+    let left = mouseX + offset;
+    let top = mouseY - MAG_SIZE / 2;
+    if (left + MAG_SIZE > cw2 - 5) left = mouseX - offset - MAG_SIZE;
+    if (top < 5) top = 5;
+
+    loupe.style.left = left + 'px';
+    loupe.style.top = top + 'px';
+}
+
+// ---- ZOOM ----
+function adjustZoom(delta) {
+    zoom = Math.max(1, Math.min(10, Math.round((zoom + delta) * 10) / 10));
+    updateZoomUI();
+}
+
+function updateZoomUI() {
+    const img = document.getElementById('previewImg');
+    img.style.width = (zoom * 100) + '%';
+    img.style.imageRendering = zoom >= 4 ? 'pixelated' : 'auto';
+
+    const badge = document.getElementById('zoomBadge');
+    if (zoom > 1) {
+        badge.style.display = 'block';
+        badge.textContent = zoom.toFixed(1) + '×';
+    } else {
+        badge.style.display = 'none';
+    }
+
+    document.getElementById('zoomLabel').textContent = zoom.toFixed(1) + '×';
+    document.getElementById('zoomFill').style.width = (((zoom - 1) / 9) * 100) + '%';
+}
+
+function setupWheelZoom() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const el = document.getElementById('imgScrollContainer');
+        if (!el) return;
+        el.addEventListener('wheel', function(e) {
+            if (!e.ctrlKey && !e.metaKey) return;
+            e.preventDefault();
+            adjustZoom(e.deltaY > 0 ? -0.5 : 0.5);
+        }, { passive: false });
+    });
+}
+
+// ---- COPY ----
+function copyColor(hex) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(hex);
+    } else {
+        const ta = document.createElement('textarea');
+        ta.value = hex;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+    showToast('Copied ' + hex);
+}
+
+// ---- MUSEUM ----
+function loadMuseum() {
+    try {
+        museum = JSON.parse(localStorage.getItem('stipple_museum') || '[]');
+    } catch(e) {
+        museum = [];
+    }
+    updateMuseumBadge();
+}
+
+function saveMuseum() {
+    localStorage.setItem('stipple_museum', JSON.stringify(museum));
+    updateMuseumBadge();
+}
+
+function updateMuseumBadge() {
+    const count = museum.length;
+    const badge = document.getElementById('museumBadge');
+    const badgeMobile = document.getElementById('museumBadgeMobile');
+    if (count > 0) {
+        badge.style.display = 'inline-block';
+        badge.textContent = count;
+        badgeMobile.style.display = 'inline-block';
+        badgeMobile.textContent = count;
+    } else {
+        badge.style.display = 'none';
+        badgeMobile.style.display = 'none';
+    }
+}
+
+function saveToMuseum() {
+    if (!selectedColor) {
+        showToast('Pick a color first', 'error');
+        return;
+    }
+    const item = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: selectedColor.name,
+        hex: selectedColor.hex,
+        rgb: selectedColor.rgb,
+        hsl: selectedColor.hsl,
+        temperature: selectedColor.temperature,
+        type: selectedColor.type,
+        date: new Date().toLocaleDateString()
+    };
+    museum.unshift(item);
+    saveMuseum();
+    showToast('Added ' + selectedColor.name + ' to Museum');
+}
+
+function removeFromMuseum(id) {
+    const item = museum.find(function(c) { return c.id === id; });
+    museum = museum.filter(function(c) { return c.id !== id; });
+    saveMuseum();
+    renderMuseum();
+    if (item) showToast('Removed ' + item.name, 'info');
+}
+
+function exportMuseum() {
+    if (museum.length === 0) return;
+    const blob = new Blob([JSON.stringify(museum, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'stipple_museum_' + Date.now() + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Museum exported!');
+}
+
+function renderMuseum() {
+    const content = document.getElementById('museumContent');
+    const exportBtn = document.getElementById('exportBtn');
+
+    if (museum.length === 0) {
+        exportBtn.style.display = 'none';
+        content.innerHTML =
+            '<div class="card">' +
+                '<div class="empty-state">' +
+                    '<div class="empty-icon">🖼</div>' +
+                    '<p class="empty-title">The Gallery is Empty</p>' +
+                    '<p class="empty-text">Analyze images and add colors to your museum. They survive browser refreshes.</p>' +
+                '</div>' +
+            '</div>';
+        return;
+    }
+
+    exportBtn.style.display = 'flex';
+    let html = '<div class="museum-grid">';
+    museum.forEach(function(col) {
+        html +=
+            '<div class="museum-card">' +
+                '<div class="museum-card-swatch" style="background:' + col.hex + ';">' +
+                    '<div class="museum-card-actions">' +
+                        '<button class="museum-action-btn delete" onclick="removeFromMuseum(\'' + col.id + '\')">🗑</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="museum-card-body">' +
+                    '<div class="museum-card-name">' + col.name + '</div>' +
+                    '<div class="museum-card-hex" onclick="copyColor(\'' + col.hex + '\')">' + col.hex.toUpperCase() + '</div>' +
+                    '<div class="museum-card-meta">' +
+                        '<div>Temp: <span>' + col.temperature + '</span></div>' +
+                        '<div>Type: <span>' + col.type + '</span></div>' +
+                        '<div style="grid-column:span 2;color:var(--stone-400);font-size:0.6rem;">' + col.date + '</div>' +
+                    '</div>' +
+                    '<button class="museum-copy-btn" onclick="copyColor(\'' + col.hex + '\')">COPY HEX</button>' +
+                '</div>' +
+            '</div>';
+    });
+    html += '</div>';
+    content.innerHTML = html;
+}
+
+// ---- COLOR BLINDNESS ----
+function handleBlindFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        blindImage = new Image();
+        blindImage.onload = function() {
+            document.getElementById('blindUploadZone').style.display = 'none';
+            const section = document.getElementById('blindSection');
+            section.style.display = 'flex';
+            const img = document.getElementById('blindHiddenImg');
+            img.src = e.target.result;
+            img.onload = function() { applySimulation(); };
+        };
+        blindImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function handleBlindDrop(event) {
+    event.preventDefault();
+    document.getElementById('blindUploadZone').classList.remove('dragover');
+    const file = event.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) handleBlindFile(file);
+}
+
+function setSimType(type, btn) {
+    currentSimType = type;
+    document.querySelectorAll('.sim-type-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    applySimulation();
+}
+
+function applySimulation() {
+    const img = document.getElementById('blindHiddenImg');
+    if (!img || !img.naturalWidth) return;
+
+    const canvas = document.getElementById('simCanvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    if (currentSimType === 'Standard') return;
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    const matrices = {
+        Protanopia: [0.56667,0.43333,0,0.55833,0.44167,0,0,0.24167,0.75833],
+        Deuteranopia: [0.625,0.375,0,0.7,0.3,0,0,0.3,0.7],
+        Tritanopia: [0.95,0.05,0,0,0.43333,0.56667,0,0.475,0.525]
+    };
+
+    const m = matrices[currentSimType];
+
+    for (let i = 0; i < data.length; i += 4) {
+        const r = data[i] / 255;
+        const g = data[i+1] / 255;
+        const b = data[i+2] / 255;
+        const lr = Math.pow(r, 2.2);
+        const lg = Math.pow(g, 2.2);
+        const lb = Math.pow(b, 2.2);
+        const nr = m[0]*lr + m[1]*lg + m[2]*lb;
+        const ng = m[3]*lr + m[4]*lg + m[5]*lb;
+        const nb = m[6]*lr + m[7]*lg + m[8]*lb;
+        data[i]   = Math.round(Math.pow(Math.max(0,Math.min(1,nr)),1/2.2)*255);
+        data[i+1] = Math.round(Math.pow(Math.max(0,Math.min(1,ng)),1/2.2)*255);
+        data[i+2] = Math.round(Math.pow(Math.max(0,Math.min(1,nb)),1/2.2)*255);
+    }
+    ctx.putImageData(imageData, 0, 0);
+}
+
+function handleSimMouseMove(event) {
+    const canvas = document.getElementById('simCanvas');
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const px = Math.floor(x * scaleX);
+    const py = Math.floor(y * scaleY);
+
+    if (px < 0 || px >= canvas.width || py < 0 || py >= canvas.height) return;
+
+    const ctx = canvas.getContext('2d');
+    const pixel = ctx.getImageData(px, py, 1, 1).data;
+    const r = pixel[0], g = pixel[1], b = pixel[2];
+    const hex = ColorUtils.rgbToHex(r, g, b);
+    const hsl = ColorUtils.rgbToHsl(r, g, b);
+    const colorName = ColorUtils.findColorName(r, g, b);
+
+    const color = {
+        hex: hex,
+        rgb: { r: r, g: g, b: b },
+        hsl: hsl,
+        name: colorName.name,
+        temperature: ColorUtils.getColorTemperature(hsl.h, hsl.s, hsl.l),
+        type: ColorUtils.getColorType(hsl.h, hsl.s, hsl.l)
+    };
+
+    showBlindColorDetail(color);
+}
+
+function showBlindColorDetail(color) {
+    document.getElementById('blindEmptyState').style.display = 'none';
+    const detail = document.getElementById('blindColorDetail');
+    detail.style.display = 'block';
+
+    detail.innerHTML =
+        '<div style="display:flex;flex-direction:column;gap:1.5rem;">' +
+            '<h3 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:700;color:var(--spruce);">Simulated Specification</h3>' +
+            '<div style="display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;">' +
+                '<div class="color-preview-box" style="background:' + color.hex + ';width:192px;flex-shrink:0;">' +
+                    '<div class="color-preview-actions">' +
+                        '<button class="preview-action-btn" onclick="copyColor(\'' + color.hex + '\')">📋</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div style="flex:1;">' +
+                    '<div class="color-spec-label">SPECIFICATION</div>' +
+                    '<div class="color-spec-name">' + color.name + '</div>' +
+                    '<div class="color-spec-hex" onclick="copyColor(\'' + color.hex + '\')">' + color.hex.toUpperCase() + '</div>' +
+                    '<div class="color-meta-grid">' +
+                        '<div class="color-meta-item">Temp:<span>' + color.temperature + '</span></div>' +
+                        '<div class="color-meta-item">Type:<span>' + color.type + '</span></div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">' +
+                '<div class="stat-panel">' +
+                    '<div class="stat-panel-label">RGB Profile</div>' +
+                    '<div class="stat-row"><span>R:</span><span>' + color.rgb.r + '</span></div>' +
+                    '<div class="stat-row"><span>G:</span><span>' + color.rgb.g + '</span></div>' +
+                    '<div class="stat-row"><span>B:</span><span>' + color.rgb.b + '</span></div>' +
+                '</div>' +
+                '<div class="stat-panel">' +
+                    '<div class="stat-panel-label">HSL Profile</div>' +
+                    '<div class="stat-row"><span>Hue:</span><span>' + color.hsl.h + '°</span></div>' +
+                    '<div class="stat-row"><span>Sat:</span><span>' + color.hsl.s + '%</span></div>' +
+                    '<div class="stat-row"><span>Lum:</span><span>' + color.hsl.l + '%</span></div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+}
+</script>
 </body>
 </html>
