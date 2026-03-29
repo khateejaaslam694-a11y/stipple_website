@@ -169,7 +169,7 @@ button {
 
 .site-logo {
     height: 56px;
-    max-width: 150px;
+    max-width: 148px;
     width: auto;
     display: block;
     object-fit: contain;
@@ -223,6 +223,7 @@ button {
 
 .menu-toggle {
     display: none;
+    height: 36px;
     font-size: 28px;
     line-height: 1;
     color: #1b3907;
