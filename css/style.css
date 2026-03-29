@@ -56,7 +56,9 @@
     --transition-slow: 300ms ease;
 }
 
-/* Reset & Base */
+/* ============================================
+   RESET & BASE
+   ============================================ */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -86,7 +88,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--gray-900);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
 h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
 h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 h4 { font-size: 1.125rem; }
@@ -120,7 +121,7 @@ button {
 }
 
 /* ============================================
-   NAVBAR — CLEAN SINGLE VERSION
+   NAVBAR
    ============================================ */
 .nav {
     position: fixed;
@@ -172,8 +173,10 @@ button {
     font-size: 15px;
     font-weight: 500;
     position: relative;
-    padding: 4px 0;
+    padding: 6px 0;
     white-space: nowrap;
+    display: inline-block;
+    transition: color var(--transition-base);
 }
 
 .nav-link:hover,
@@ -185,11 +188,12 @@ button {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -4px;
+    bottom: 0;
     width: 0;
     height: 2px;
     background: var(--tulip);
     transition: width var(--transition-base);
+    display: block;
 }
 
 .nav-link:hover::after,
@@ -269,7 +273,6 @@ button {
     max-width: 800px;
 }
 
-/* Tagline */
 .hero-tagline {
     display: flex;
     align-items: center;
@@ -279,7 +282,7 @@ button {
     font-weight: 500;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: #bc475f;
+    color: #bc475f !important;
     margin-bottom: 1.4rem;
     opacity: 0;
     animation: fadeInDown 0.8s ease 0.2s forwards;
@@ -291,23 +294,22 @@ button {
     height: 1px;
     background: #bc475f;
     opacity: 0.7;
+    flex-shrink: 0;
 }
 
-/* Main title */
 .hero-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    font-weight: 700;
-    font-style: italic;
-    color: white;
-    line-height: 1.25;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2rem, 5vw, 3.4rem) !important;
+    font-weight: 700 !important;
+    font-style: italic !important;
+    color: white !important;
+    line-height: 1.25 !important;
     margin-bottom: 1.2rem;
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
     opacity: 0;
     animation: fadeInUp 0.9s ease 0.4s forwards;
 }
 
-/* Gradient colored text */
 .gradient-text {
     background: linear-gradient(135deg, #bc475f 0%, #d4637a 40%, #015f7e 100%);
     -webkit-background-clip: text;
@@ -316,7 +318,6 @@ button {
     font-style: italic;
 }
 
-/* Dots row */
 .hero-dots {
     display: flex;
     align-items: center;
@@ -340,18 +341,16 @@ button {
     background: #bc475f;
 }
 
-/* Subtitle */
 .hero-subtitle {
     font-size: 0.7rem;
     font-weight: 400;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5) !important;
     opacity: 0;
     animation: fadeInUp 0.8s ease 0.8s forwards;
 }
 
-/* Animations */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -1388,7 +1387,6 @@ button {
 
 .modal-close:hover { background: var(--tulip); color: white; }
 .modal-body { padding: var(--space-2xl); }
-
 .color-detail { text-align: center; }
 
 .detail-swatch {
@@ -1503,17 +1501,45 @@ button {
 .footer p { color: var(--gray-400); font-size: 0.9rem; }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE — ALL SCREEN SIZES
    ============================================ */
+
+/* Large laptops */
+@media (min-width: 1281px) {
+    .hero {
+        height: 500px;
+    }
+    .hero-title {
+        font-size: 3.8rem !important;
+    }
+}
+
+/* Regular laptops */
+@media (min-width: 769px) and (max-width: 1280px) {
+    .hero {
+        height: 460px;
+    }
+    .hero-title {
+        font-size: 3rem !important;
+    }
+}
+
+/* Tablets and below */
 @media (max-width: 1024px) {
     .picker-container { grid-template-columns: 1fr; }
     .live-color-info { position: static; }
     .simulation-grid { grid-template-columns: repeat(2, 1fr); }
     .comparison-container { grid-template-columns: 1fr; }
-    .comparison-divider { transform: rotate(90deg); padding: var(--space-sm) 0; }
+    .comparison-divider {
+        transform: rotate(90deg);
+        padding: var(--space-sm) 0;
+    }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
+
+    /* Navbar */
     .menu-toggle { display: block; }
 
     .nav-links {
@@ -1525,7 +1551,7 @@ button {
         background: white;
         border: 1px solid var(--gray-200);
         border-radius: 14px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         padding: 10px;
         flex-direction: column;
         align-items: flex-start;
@@ -1552,9 +1578,29 @@ button {
 
     .site-logo { height: 40px; }
 
-    .hero { height: 320px; }
+    /* Hero */
+    .hero {
+        height: 340px;
+        margin-top: 76px;
+    }
+
     .hero.hero-small { height: 250px; }
 
+    .hero-title {
+        font-size: 1.8rem !important;
+    }
+
+    .hero-tagline {
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+    }
+
+    .hero-subtitle {
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+    }
+
+    /* Layout */
     .info-grid { grid-template-columns: 1fr; }
     .type-stats { grid-template-columns: 1fr; }
     .simulation-grid { grid-template-columns: 1fr; }
@@ -1565,10 +1611,12 @@ button {
     .actions-right .action-btn { width: 100%; justify-content: center; }
 }
 
+/* Small mobile */
 @media (max-width: 480px) {
     .nav-container { padding: 10px 16px; }
     .site-logo { height: 34px; }
-
     .type-selector { flex-direction: column; align-items: stretch; }
     .type-btn { justify-content: center; }
+    .hero { height: 300px; }
+    .hero-title { font-size: 1.5rem !important; }
 }
