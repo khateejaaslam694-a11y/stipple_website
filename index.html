@@ -1292,12 +1292,13 @@
                     <div id="imageSection" style="display:none;flex-direction:column;gap:0.75rem;">
                         <div class="img-wrapper" id="imgWrapper">
                             <div class="img-scroll-container" id="imgScrollContainer">
-                                <img id="previewImg" class="preview-img"
-                                     onmousemove="handleImgMouseMove(event)"
-                                     onmouseenter="showMagnifier()"
-                                     onmouseleave="hideMagnifier()"
-                                     onclick="handleImgClick(event)"
-                                     draggable="false">
+                               <img id="previewImg" class="preview-img"
+     onmousemove="handleImgMouseMove(event)"
+     onmouseenter="showMagnifier()"
+     onmouseleave="hideMagnifier()"
+     onclick="handleImgClick(event)"
+     oncontextmenu="event.preventDefault(); unlockColor();"
+     draggable="false">
                                 <canvas id="hiddenCanvas" style="display:none"></canvas>
                             </div>
                             <div class="zoom-badge" id="zoomBadge"></div>
@@ -1683,6 +1684,7 @@ function showColorDetail(color) {
 // ---- MOUSE INTERACTION ----
 function handleImgMouseMove(event) {
     if (!hiddenCanvas || !hiddenCanvas.width) return;
+    if (colorLocked) return;
     const img = event.target;
     const rect = img.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -1714,6 +1716,8 @@ function handleImgMouseMove(event) {
     showColorDetail(hoverColor);
 }
 
+var colorLocked = false;
+
 function handleImgClick(event) {
     const img = event.target;
     const rect = img.getBoundingClientRect();
@@ -1742,11 +1746,24 @@ function handleImgClick(event) {
         type: ColorUtils.getColorType(hsl.h, hsl.s, hsl.l)
     };
 
-    showToast('Locked: ' + hex, 'info');
-}
+    colorLocked = true;
+    showColorDetail(selectedColor);
+    showToast('Color locked: ' + colorName.name, 'success');
 
+    // Show locked indicator on image
+    const img2 = document.getElementById('previewImg');
+    img2.style.outline = '3px solid ' + hex;
+    img2.style.outlineOffset = '-3px';
+}
 function showMagnifier() {
     document.getElementById('magnifierLoupe').style.display = 'block';
+}
+
+function unlockColor() {
+    colorLocked = false;
+    const img = document.getElementById('previewImg');
+    img.style.outline = 'none';
+    showToast('Unlocked — hover to explore', 'info');
 }
 
 function hideMagnifier() {
