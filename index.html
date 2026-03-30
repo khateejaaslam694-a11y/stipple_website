@@ -62,10 +62,7 @@
       border: none;
       background: none;
     }
-    img {
-      max-width: 100%;
-      display: block;
-    }
+    img { max-width: 100%; display: block; }
 
     .toast-container {
       position: fixed;
@@ -115,6 +112,7 @@
 
     .header-logo { display: flex; align-items: center; }
     .logo { display: flex; align-items: center; }
+
     .site-logo {
       height: 44px;
       width: auto;
@@ -142,6 +140,7 @@
     }
 
     .nav-btn:hover { background: var(--stone-100); }
+
     .nav-btn.active {
       background: var(--spruce);
       color: white;
@@ -206,6 +205,7 @@
     }
 
     .mobile-nav-btn:hover { background: var(--stone-100); }
+
     .mobile-nav-btn.active {
       background: var(--spruce);
       color: white;
@@ -1258,12 +1258,15 @@
     }
 
     @media (max-width: 1024px) {
-      .section-container, .blindness-container {
+      .section-container,
+      .blindness-container {
         grid-template-columns: 1fr;
       }
+
       .stat-panels {
         grid-template-columns: 1fr 1fr;
       }
+
       .comparison-grid {
         grid-template-columns: 1fr;
       }
@@ -1272,18 +1275,25 @@
     @media (max-width: 768px) {
       .header-nav { display: none; }
       .menu-toggle { display: flex; }
+
       .hero { height: 280px; }
       .hero-title { font-size: 1.75rem; }
-      .section-container, .blindness-container, .full-container {
+
+      .section-container,
+      .blindness-container,
+      .full-container {
         padding: 1rem;
         gap: 1rem;
       }
+
       .stat-panels {
         grid-template-columns: 1fr;
       }
+
       .museum-grid {
         grid-template-columns: 1fr 1fr;
       }
+
       .artwork-grid {
         grid-template-columns: 1fr;
       }
@@ -1293,6 +1303,7 @@
       .museum-grid {
         grid-template-columns: 1fr;
       }
+
       .hero-title {
         font-size: 1.5rem;
       }
@@ -1361,7 +1372,6 @@
   </section>
 
   <main class="main">
-    <!-- ANALYZE -->
     <div class="tab-content active" id="tab-analyze">
       <div class="section-container">
         <div style="display:flex;flex-direction:column;gap:1.5rem;">
@@ -1458,7 +1468,6 @@
       </div>
     </div>
 
-    <!-- MUSEUM -->
     <div class="tab-content" id="tab-museum">
       <div class="full-container">
         <div class="museum-header">
@@ -1479,7 +1488,6 @@
       </div>
     </div>
 
-    <!-- COLOR BLINDNESS -->
     <div class="tab-content" id="tab-blindness">
       <div class="blindness-container" style="display:block;">
         <div class="card" style="margin-bottom:1.5rem;">
@@ -1500,7 +1508,7 @@
             <div class="blind-info-card">
               <div class="blind-info-title">How to Use</div>
               <div class="blind-info-desc">
-                Upload an image, choose a simulation type, compare original and simulated views, then click any point in either image to inspect the exact color.
+                Upload an image, choose a simulation type, compare original and simulated versions, hover to inspect pixels, and click to see full specifications.
               </div>
             </div>
           </div>
@@ -1543,31 +1551,73 @@
             <button class="img-action-btn secondary" style="width:auto;padding:0.5rem 1rem;" onclick="document.getElementById('blindFileInput').click()">Change Image</button>
           </div>
 
-          <div class="comparison-grid">
-            <div class="comparison-card">
-              <div class="comparison-card-header">
-                <span class="comparison-card-title">Original — Normal Vision</span>
-                <span class="comparison-card-badge">Original</span>
+          <div class="section-container" style="padding:0;max-width:none;grid-template-columns:5fr 7fr;">
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
+              <div class="card">
+                <div class="card-title">Original — Normal Vision</div>
+                <div class="img-wrapper" id="originalWrapper">
+                  <div class="img-scroll-container">
+                    <canvas id="originalCanvas" class="comparison-canvas"
+                      onmousemove="handleBlindMouseMove(event, 'original')"
+                      onmouseenter="showBlindMagnifier('original')"
+                      onmouseleave="hideBlindMagnifier('original')"
+                      onclick="handleCanvasClick(event, 'original')"></canvas>
+                  </div>
+
+                  <div class="magnifier-loupe" id="originalMagnifierLoupe">
+                    <div class="magnifier-canvas-wrap" id="originalMagnifierBorder">
+                      <canvas id="originalMagnifierCanvas" width="160" height="160"></canvas>
+                    </div>
+                    <div class="magnifier-label">
+                      <div class="magnifier-swatch" id="originalMagnifierSwatch"></div>
+                      <span class="magnifier-name" id="originalMagnifierName">—</span>
+                      <span class="magnifier-hex" id="originalMagnifierHex">—</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="comparison-card-image">
-                <canvas id="originalCanvas" class="comparison-canvas" onclick="handleCanvasClick(event, 'original')"></canvas>
+
+              <div class="card">
+                <div class="card-title" id="simCardTitle">Simulated Vision</div>
+                <div class="img-wrapper" id="simWrapper">
+                  <div class="img-scroll-container">
+                    <canvas id="simCanvas" class="comparison-canvas"
+                      onmousemove="handleBlindMouseMove(event, 'sim')"
+                      onmouseenter="showBlindMagnifier('sim')"
+                      onmouseleave="hideBlindMagnifier('sim')"
+                      onclick="handleCanvasClick(event, 'sim')"></canvas>
+                  </div>
+
+                  <div class="magnifier-loupe" id="simMagnifierLoupe">
+                    <div class="magnifier-canvas-wrap" id="simMagnifierBorder">
+                      <canvas id="simMagnifierCanvas" width="160" height="160"></canvas>
+                    </div>
+                    <div class="magnifier-label">
+                      <div class="magnifier-swatch" id="simMagnifierSwatch"></div>
+                      <span class="magnifier-name" id="simMagnifierName">—</span>
+                      <span class="magnifier-hex" id="simMagnifierHex">—</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="comparison-card">
-              <div class="comparison-card-header">
-                <span class="comparison-card-title" id="simCardTitle">Simulated Vision</span>
-                <span class="comparison-card-badge" id="simCardBadge">Normal</span>
-              </div>
-              <div class="comparison-card-image">
-                <canvas id="simCanvas" class="comparison-canvas" onclick="handleCanvasClick(event, 'sim')"></canvas>
+            <div>
+              <div class="card" style="min-height:400px;">
+                <div class="empty-state" id="blindEmptyState">
+                  <div class="empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <circle cx="12" cy="12" r="6"></circle>
+                      <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                  </div>
+                  <p class="empty-title">No Color Selected</p>
+                  <p class="empty-text">Hover to inspect pixels and click any point in either image to view full simulated color specifications.</p>
+                </div>
+                <div id="blindColorDetail" style="display:none;"></div>
               </div>
             </div>
-          </div>
-
-          <div class="blind-color-panel" id="blindColorPanel" style="display:none;">
-            <div class="blind-color-panel-title">Selected Color Specification</div>
-            <div id="blindColorDetail"></div>
           </div>
         </div>
 
@@ -1954,7 +2004,6 @@
       var left = mx + 24, top = my - MAG / 2;
       if (left + MAG > wrapper.clientWidth - 5) left = mx - 24 - MAG;
       if (top < 5) top = 5;
-
       loupe.style.left = left + 'px';
       loupe.style.top = top + 'px';
     }
@@ -2254,6 +2303,93 @@
       ctx.putImageData(imageData, 0, 0);
     }
 
+    function handleBlindMouseMove(event, canvasId) {
+      var canvas = document.getElementById(canvasId === 'original' ? 'originalCanvas' : 'simCanvas');
+      if (!canvas || !canvas.width) return;
+
+      var rect = canvas.getBoundingClientRect();
+      var x = event.clientX - rect.left;
+      var y = event.clientY - rect.top;
+      var px = Math.floor(x * canvas.width / rect.width);
+      var py = Math.floor(y * canvas.height / rect.height);
+
+      if (px < 0 || px >= canvas.width || py < 0 || py >= canvas.height) return;
+
+      var pixel = canvas.getContext('2d').getImageData(px, py, 1, 1).data;
+      var r = pixel[0], g = pixel[1], b = pixel[2];
+      var hex = ColorUtils.rgbToHex(r, g, b);
+      var colorName = ColorUtils.findColorName(r, g, b);
+
+      updateBlindMagnifier(event, px, py, {
+        hex: hex,
+        name: colorName.name
+      }, canvasId);
+    }
+
+    function showBlindMagnifier(canvasId) {
+      document.getElementById(canvasId + 'MagnifierLoupe').style.display = 'block';
+    }
+
+    function hideBlindMagnifier(canvasId) {
+      document.getElementById(canvasId + 'MagnifierLoupe').style.display = 'none';
+    }
+
+    function updateBlindMagnifier(event, px, py, color, canvasId) {
+      var canvas = document.getElementById(canvasId === 'original' ? 'originalCanvas' : 'simCanvas');
+      var loupe = document.getElementById(canvasId + 'MagnifierLoupe');
+      var wrapper = document.getElementById(canvasId + 'Wrapper');
+      var wRect = wrapper.getBoundingClientRect();
+
+      var MAG = 160, SR = 8, SS = SR * 2 + 1, PS = MAG / SS;
+      var mc = document.getElementById(canvasId + 'MagnifierCanvas');
+      var ctx = mc.getContext('2d');
+      mc.width = MAG;
+      mc.height = MAG;
+      ctx.imageSmoothingEnabled = false;
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, MAG, MAG);
+
+      var sx = px - SR, sy = py - SR;
+      var cx = Math.max(0, sx), cy = Math.max(0, sy);
+      var cex = Math.min(canvas.width, sx + SS), cey = Math.min(canvas.height, sy + SS);
+      var cw = cex - cx, ch = cey - cy;
+
+      if (cw > 0 && ch > 0) {
+        ctx.drawImage(canvas, cx, cy, cw, ch, (cx - sx) * PS, (cy - sy) * PS, cw * PS, ch * PS);
+      }
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 0.5;
+      for (var i = 0; i <= SS; i++) {
+        var p = i * PS;
+        ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, MAG); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, p); ctx.lineTo(MAG, p); ctx.stroke();
+      }
+
+      var cp = SR * PS;
+      ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(cp, cp, PS, PS);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(cp + 1, cp + 1, PS - 2, PS - 2);
+
+      document.getElementById(canvasId + 'MagnifierBorder').style.borderColor = color.hex;
+      document.getElementById(canvasId + 'MagnifierSwatch').style.backgroundColor = color.hex;
+      document.getElementById(canvasId + 'MagnifierName').textContent = color.name;
+      document.getElementById(canvasId + 'MagnifierHex').textContent = color.hex.toUpperCase();
+
+      var mx = event.clientX - wRect.left;
+      var my = event.clientY - wRect.top;
+      var left = mx + 24;
+      var top = my - MAG / 2;
+      if (left + MAG > wrapper.clientWidth - 5) left = mx - 24 - MAG;
+      if (top < 5) top = 5;
+
+      loupe.style.left = left + 'px';
+      loupe.style.top = top + 'px';
+    }
+
     function handleCanvasClick(event, canvasId) {
       var canvas = document.getElementById(canvasId === 'original' ? 'originalCanvas' : 'simCanvas');
       var rect = canvas.getBoundingClientRect();
@@ -2266,6 +2402,7 @@
       var hex = ColorUtils.rgbToHex(r, g, b);
       var hsl = ColorUtils.rgbToHsl(r, g, b);
       var colorName = ColorUtils.findColorName(r, g, b);
+
       var color = {
         hex: hex,
         rgb: { r: r, g: g, b: b },
@@ -2275,9 +2412,12 @@
         type: ColorUtils.getColorType(hsl.h, hsl.s, hsl.l)
       };
 
-      document.getElementById('blindColorPanel').style.display = 'block';
+      document.getElementById('blindEmptyState').style.display = 'none';
+      var detail = document.getElementById('blindColorDetail');
+      detail.style.display = 'block';
+
       var label = canvasId === 'original' ? 'Original View' : currentSimType + ' Simulation';
-      document.getElementById('blindColorDetail').innerHTML =
+      detail.innerHTML =
         '<p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--stone-400);margin-bottom:1rem;">Picked from: ' + label + '</p>' +
         buildColorDetailHTML(color, hsl, hsl.l > 55 ? '#000' : '#fff', false);
 
